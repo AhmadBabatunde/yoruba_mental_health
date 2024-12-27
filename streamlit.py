@@ -44,15 +44,17 @@ pinecone_api_key = st.secrets["pinecone_api_key"]
 GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=GEMINI_API_KEY)
 
-model_name = "Alibaba-NLP/gte-multilingual-base"
-model_kwargs = {'trust_remote_code': True}
+$model_name = "Alibaba-NLP/gte-multilingual-base"
+model_name = "sentence-transformers/all-MiniLM-L6-v2"
+#model_kwargs = {'trust_remote_code': True}
 
 # Initialize embeddings
-embedding_mod = HuggingFaceEmbeddings(model_name=model_name, model_kwargs=model_kwargs)
+#embedding_mod = HuggingFaceEmbeddings(model_name=model_name, model_kwargs=model_kwargs)
+embedding_mod = HuggingFaceEmbeddings(model_name=model_name)
 
 # Initialize Pinecone
 vectorstore = PineconeVectorStore(
-    index_name="mental-health-yoruba",
+    index_name="mental-health-english",
     embedding=embedding_mod,
     pinecone_api_key=pinecone_api_key
 )

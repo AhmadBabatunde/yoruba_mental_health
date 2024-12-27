@@ -44,7 +44,7 @@ pinecone_api_key = st.secrets["pinecone_api_key"]
 GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=GEMINI_API_KEY)
 
-$model_name = "Alibaba-NLP/gte-multilingual-base"
+#model_name = "Alibaba-NLP/gte-multilingual-base"
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
 #model_kwargs = {'trust_remote_code': True}
 

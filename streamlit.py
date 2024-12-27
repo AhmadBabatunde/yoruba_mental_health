@@ -13,13 +13,6 @@ from pinecone import Pinecone
 from langchain_pinecone import PineconeVectorStore
 import re
 import os
-
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv(), override=True)
-
-if 'GOOGLE_API_KEY' not in os.environ:
-    os.environ['GOOGLE_API_KEY'] = st.text_input('Provide your Google API Key:', type='password')
-
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -48,8 +41,8 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
 # Configuration
 huggingfacehub_api_token = st.secrets["huggingfacehub_api_token"]
 pinecone_api_key = st.secrets["pinecone_api_key"]
-GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
-genai.configure(api_key=GOOGLE_API_KEY)
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+genai.configure(api_key=GEMINI_API_KEY)
 
 model_name = "Alibaba-NLP/gte-multilingual-base"
 model_kwargs = {'trust_remote_code': True}

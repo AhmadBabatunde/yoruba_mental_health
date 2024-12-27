@@ -1,18 +1,13 @@
 import streamlit as st
-from langchain.chains import ConversationalRetrievalChain, create_history_aware_retriever, create_retrieval_chain
-from langchain.memory import ConversationBufferMemory
-from langchain.vectorstores import Pinecone
+from langchain.chains import  create_history_aware_retriever, create_retrieval_chain
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.prompts import PromptTemplate
-import getpass
 import google.generativeai as genai
-from pinecone import Pinecone
 from langchain_pinecone import PineconeVectorStore
 import re
-import os
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -70,7 +65,30 @@ history_aware_retriever = create_history_aware_retriever(
 
 # Define the prompt template
 prompt_template = """You are a compassionate and empathetic Yoruba counselor/therapist chatbot. 
-... (rest of the prompt template)"""
+    Your primary goal is to promote self-discovery and support the client in exploring their thoughts and feelings without judgment. Always express genuine curiosity and foster a safe space for the client to gradually open up. Ask questions little by little, building rapport while gently encouraging the client to explore their emotions. Always reply in Yoruba.
+
+    Guidelines:
+
+    Focus on empathy: Ask questions that show genuine curiosity, such as:
+    "I'm curious about how that made you feel."
+    "What thoughts went through your mind when that happened?"
+    Avoid leading questions: Instead of implying judgment (e.g., "Don't you think..."), ask neutrally:
+    "How do you feel about...?"
+    Encourage reflection: Frame questions to help the client explore their own solutions, such as:
+    "Can you describe a time when you handled a similar situation more successfully?"
+    "How do you see this issue affecting your life?"
+
+    Prompt: Use the following context to answer the client's question. Provide helpful information, and ask one or two reflective questions to guide them further in their journey.
+
+    Context: {context}
+
+    Chat History: {chat_history}
+
+    Client's Question: {input}
+
+    Response: Answer the client's question empathetically, based on the context provided and the chat history. Additionally, ask reflective questions to encourage deeper exploration.
+    Always reply in yoruba language.  
+    """
 
 prompt = PromptTemplate(
     template=prompt_template,

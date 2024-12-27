@@ -46,9 +46,9 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
     return st.session_state[session_id]
 
 # Configuration
-huggingfacehub_api_token = os.getenv('huggingfacehub_api_token')
-pinecone_api_key = os.getenv('pinecone_api_key_2')
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+huggingfacehub_api_token = st.secrets["huggingfacehub_api_token"]
+pinecone_api_key = st.secrets["pinecone_api_key"]
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 genai.configure(api_key=GOOGLE_API_KEY)
 
 model_name = "Alibaba-NLP/gte-multilingual-base"

@@ -122,7 +122,7 @@ def generate_response(user_input, session_id):
     return cleaned_response.strip()
 
 # Streamlit UI with initial form
-st.title("Welcome to Therapeutic Chatbot")
+st.title("Ẹ káàbọ̀ sí ìtójú ọkàn lórí ìǹtànétì.")
 
 # User info form
 if 'user_initialized' not in st.session_state:
@@ -130,33 +130,49 @@ if 'user_initialized' not in st.session_state:
 
 if not st.session_state['user_initialized']:
     with st.form(key='user_info_form'):
-        name = st.text_input("Your Name:")
-        occupation = st.text_input("Your Occupation:")
-        issues = st.text_area("What mental health issues are you facing?")
+        name = st.text_input("Kí ni orúkọ rẹ?:")
+        occupation = st.text_input("Kí ni iṣẹ́ rẹ?:")
+        issues = st.text_area("Iru ìṣòrò ọkàn wo ni o n dojú kọ?")
         
-        submit_button = st.form_submit_button(label='Start Chat')
+        submit_button = st.form_submit_button(label='Bẹrẹ ìjíròrò')
 
     if submit_button:
         if name and occupation and issues:
-            initial_message = f"My name is {name}, I am a {occupation}, and I'm dealing with {issues}."
+            initial_message = f"Orúkọ mi ni {name}, mo ni {occupation}, mo sì ń dojú kọ {issues}."
             response = generate_response(initial_message, st.session_state['session_id'])
-            st.write(f"Chatbot: {response}")
+            if 'messages' not in st.session_state:
+                st.session_state.messages = []
+            st.session_state.messages.append({"content": initial_message, "is_user": True})
+            st.session_state.messages.append({"content": response, "is_user": False})
             
             st.session_state['user_initialized'] = True
-            st.success("Chat started!")
+            st.success("Ijíròrò Bẹrẹ!")
         else:
-            st.warning("Please fill out all fields before starting the chat.")
+            st.warning("Jọwọ kọ gbogbo awọn aaye ṣaaju ki o to bẹrẹ ìjíròrò.")
 
 # Chat interface after initialization
 if st.session_state['user_initialized']:
-    user_input = st.text_input("Ask about Mental Health (type 'exit' to end):")
-    if st.button("Submit"):
-        if user_input.lower() != 'exit':
-            response = generate_response(user_input, st.session_state['session_id'])
-            st.write(f"Chatbot: {response}")
+    # Display chat history
+    for message in st.session_state.messages:
+        if message["is_user"]:
+            st.write(f":bust_in_silhouette: **User:** {message['content']}")
         else:
-            st.write("Goodbye!")
+            st.write(f":robot_face: **Chatbot:** {message['content']}")
+    
+    # New input box appears under the last message
+    user_input = st.text_input("Beere nipa Ilera Ọpọlọ (kọ 'opari' lati parí):", key="user_input")
+    if st.button("Submit"):
+        if user_input.lower() != 'opari':
+            response = generate_response(user_input, st.session_state['session_id'])
+            st.session_state.messages.append({"content": user_input, "is_user": True})
+            st.session_state.messages.append({"content": response, "is_user": False})
+            # Use st.rerun() instead of st.experimental_rerun()
+            st.rerun()
+        else:
+            st.write("Odabo!")
             st.session_state['user_initialized'] = False
+            st.session_state.messages = []  # Clear messages when session ends
+            st.rerun()
 
 if __name__ == "__main__":
     if 'session_id' not in st.session_state:

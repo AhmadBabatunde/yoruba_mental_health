@@ -6,3 +6,5 @@ therapy-data-yoruba-row 0-2000 (1).csv
 therapy-data-yoruba-row 2000-5000.csv
 therapy-data-yoruba-row 5000-6000.csv
 yoruba-mental-data.csv
+merged_output.txt
+joined-yoruba_clean.txt

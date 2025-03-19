@@ -1,11 +1,9 @@
-langchain
 langchain_community
 langchain_core
 langchain_google_genai
 langchain_huggingface
 langchain_pinecone
 protobuf
-python-dotenv
 streamlit
 langchain-google-genai
 langchain-huggingface

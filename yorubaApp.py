@@ -36,6 +36,7 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
     return st.session_state[session_id]
 
 # Configuration
+<<<<<<< HEAD:yorubaApp.py
 huggingfacehub_api_token = os.getenv('huggingfacehub_api_token')
 pinecone_api_key = '788fbedb-296c-4f90-9214-28b223920915'
 GEMINI_API_KEY = 'AIzaSyD3MDvzy_AZmkwfixmA8qd8anIUpEw64Dg'
@@ -44,6 +45,16 @@ print('pinecone_api_key')
 # model_name = "Alibaba-NLP/gte-multilingual-base"
 # model_kwargs = {'trust_remote_code': True}
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
+=======
+huggingfacehub_api_token = st.secrets["huggingfacehub_api_token"]
+pinecone_api_key = st.secrets["pinecone_api_key"]
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+genai.configure(api_key=GEMINI_API_KEY)
+
+#model_name = "Alibaba-NLP/gte-multilingual-base"
+model_name = "sentence-transformers/all-MiniLM-L6-v2"
+#model_kwargs = {'trust_remote_code': True}
+>>>>>>> d0116985e87b8fabd5a773cb7801084c49e0c94b:streamlit.py
 
 # Initialize embeddings
 #embedding_mod = HuggingFaceEmbeddings(model_name=model_name, model_kwargs=model_kwargs)
@@ -51,7 +62,11 @@ embedding_mod = HuggingFaceEmbeddings(model_name=model_name)
 
 # Initialize Pinecone
 vectorstore = PineconeVectorStore(
+<<<<<<< HEAD:yorubaApp.py
     index_name="yoruba-mental-health-two",
+=======
+    index_name="mental-health-english",
+>>>>>>> d0116985e87b8fabd5a773cb7801084c49e0c94b:streamlit.py
     embedding=embedding_mod,
     pinecone_api_key=pinecone_api_key
 )
@@ -68,6 +83,32 @@ history_aware_retriever = create_history_aware_retriever(
 # Define the prompt template
 prompt_template = """You are a compassionate and empathetic Yoruba counselor/therapist chatbot. 
     Your primary goal is to promote self-discovery and support the client in exploring their thoughts and feelings without judgment. Always express genuine curiosity and foster a safe space for the client to gradually open up. Ask questions little by little, building rapport while gently encouraging the client to explore their emotions. Always reply in Yoruba.
+<<<<<<< HEAD:yorubaApp.py
+=======
+
+    Guidelines:
+
+    Focus on empathy: Ask questions that show genuine curiosity, such as:
+    "I'm curious about how that made you feel."
+    "What thoughts went through your mind when that happened?"
+    Avoid leading questions: Instead of implying judgment (e.g., "Don't you think..."), ask neutrally:
+    "How do you feel about...?"
+    Encourage reflection: Frame questions to help the client explore their own solutions, such as:
+    "Can you describe a time when you handled a similar situation more successfully?"
+    "How do you see this issue affecting your life?"
+
+    Prompt: Use the following context to answer the client's question. Provide helpful information, and ask one or two reflective questions to guide them further in their journey.
+
+    Context: {context}
+
+    Chat History: {chat_history}
+
+    Client's Question: {input}
+
+    Response: Answer the client's question empathetically, based on the context provided and the chat history. Additionally, ask reflective questions to encourage deeper exploration.
+    Always reply in yoruba language.  
+    """
+>>>>>>> d0116985e87b8fabd5a773cb7801084c49e0c94b:streamlit.py
 
     Guidelines:
 
@@ -97,7 +138,10 @@ prompt = PromptTemplate(
 )
 
 # Initialize memory
+<<<<<<< HEAD:yorubaApp.py
 #memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True, k=5)
+=======
+>>>>>>> d0116985e87b8fabd5a773cb7801084c49e0c94b:streamlit.py
 question_answer_chain = create_stuff_documents_chain(llm, prompt)
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
